@@ -4,20 +4,40 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Dark theme (default) — values are R G B channels for Tailwind opacity support */
 :root {
-  --bg-primary: #0f1117;
-  --bg-secondary: #1a1d27;
-  --bg-tertiary: #22263a;
-  --border: #2a2d3e;
-  --border-light: #3a3f5c;
-  --text-primary: #e2e8f0;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
-  --accent-blue: #4f9eff;
-  --accent-purple: #a78bfa;
-  --accent-green: #34d399;
-  --accent-yellow: #fbbf24;
-  --accent-red: #f87171;
+  --bg-primary:    15  17  23;    /* #0f1117 */
+  --bg-secondary:  26  29  39;    /* #1a1d27 */
+  --bg-tertiary:   34  38  58;    /* #22263a */
+  --border:        42  45  62;    /* #2a2d3e */
+  --border-light:  58  63  92;    /* #3a3f5c */
+  --text-primary:  226 232 240;   /* #e2e8f0 */
+  --text-secondary:148 163 184;   /* #94a3b8 */
+  --text-muted:    100 116 139;   /* #64748b */
+  --accent-blue:   79  158 255;   /* #4f9eff */
+  --accent-purple: 167 139 250;   /* #a78bfa */
+  --accent-green:  52  211 153;   /* #34d399 */
+  --accent-yellow: 251 191 36;    /* #fbbf24 */
+  --accent-red:    248 113 113;   /* #f87171 */
+  --accent-orange: 251 146 60;    /* #fb923c */
+}
+
+/* Light theme */
+html.light {
+  --bg-primary:    248 250 252;   /* #f8fafc */
+  --bg-secondary:  255 255 255;   /* #ffffff */
+  --bg-tertiary:   241 245 249;   /* #f1f5f9 */
+  --border:        226 232 240;   /* #e2e8f0 */
+  --border-light:  203 213 225;   /* #cbd5e1 */
+  --text-primary:  15  23  42;    /* #0f172a */
+  --text-secondary:51  65  85;    /* #334155 */
+  --text-muted:    100 116 139;   /* #64748b */
+  --accent-blue:   59  130 246;   /* #3b82f6 */
+  --accent-purple: 139 92  246;   /* #8b5cf6 */
+  --accent-green:  16  185 129;   /* #10b981 */
+  --accent-yellow: 217 119 6;     /* #d97706 */
+  --accent-red:    220 38  38;    /* #dc2626 */
+  --accent-orange: 234 88  12;    /* #ea580c */
 }
 
 * {
@@ -28,8 +48,8 @@ html,
 body {
   margin: 0;
   padding: 0;
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
+  background-color: rgb(var(--bg-primary));
+  color: rgb(var(--text-primary));
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-size: 14px;
   line-height: 1.6;
@@ -42,10 +62,10 @@ body {
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--bg-secondary);
+  background: rgb(var(--bg-secondary));
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--border-light);
+  background: rgb(var(--border-light));
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
@@ -65,8 +85,8 @@ pre,
   margin-bottom: 0.75rem;
 }
 .prose-dark code {
-  background: var(--bg-tertiary);
-  color: var(--accent-blue);
+  background: rgb(var(--bg-tertiary));
+  color: rgb(var(--accent-blue));
   padding: 0.1em 0.3em;
   border-radius: 3px;
   font-size: 0.85em;

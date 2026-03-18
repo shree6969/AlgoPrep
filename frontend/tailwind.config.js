@@ -6,26 +6,26 @@ export default {
     extend: {
       colors: {
         bg: {
-          primary: '#0f1117',
-          secondary: '#1a1d27',
-          tertiary: '#22263a',
+          primary:   'rgb(var(--bg-primary)   / <alpha-value>)',
+          secondary: 'rgb(var(--bg-secondary) / <alpha-value>)',
+          tertiary:  'rgb(var(--bg-tertiary)  / <alpha-value>)',
         },
         border: {
-          DEFAULT: '#2a2d3e',
-          light: '#3a3f5c',
+          DEFAULT: 'rgb(var(--border)       / <alpha-value>)',
+          light:   'rgb(var(--border-light) / <alpha-value>)',
         },
         accent: {
-          blue: '#4f9eff',
-          purple: '#a78bfa',
-          green: '#34d399',
-          yellow: '#fbbf24',
-          red: '#f87171',
-          orange: '#fb923c',
+          blue:   'rgb(var(--accent-blue)   / <alpha-value>)',
+          purple: 'rgb(var(--accent-purple) / <alpha-value>)',
+          green:  'rgb(var(--accent-green)  / <alpha-value>)',
+          yellow: 'rgb(var(--accent-yellow) / <alpha-value>)',
+          red:    'rgb(var(--accent-red)    / <alpha-value>)',
+          orange: 'rgb(var(--accent-orange) / <alpha-value>)',
         },
         text: {
-          primary: '#e2e8f0',
-          secondary: '#94a3b8',
-          muted: '#64748b',
+          primary:   'rgb(var(--text-primary)   / <alpha-value>)',
+          secondary: 'rgb(var(--text-secondary) / <alpha-value>)',
+          muted:     'rgb(var(--text-muted)     / <alpha-value>)',
         },
       },
       fontFamily: {

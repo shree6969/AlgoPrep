@@ -1,10 +1,12 @@
 import { Outlet, NavLink } from 'react-router-dom'
-import { Code2, BookOpen, Network, Menu, X, Zap, Shield } from 'lucide-react'
+import { Code2, BookOpen, Network, Menu, X, Zap, Shield, Sun, Moon } from 'lucide-react'
 import { useState } from 'react'
 import clsx from 'clsx'
+import { useTheme } from '../hooks/useTheme'
 
 export default function Layout() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const { theme, toggle } = useTheme()
 
   const navLinks = [
     { to: '/problems', label: 'Problems', icon: <BookOpen size={16} /> },
@@ -57,6 +59,18 @@ export default function Layout() {
               <Zap size={12} className="text-accent-yellow" />
               <span>L7/L8 Interview Prep</span>
             </div>
+
+            {/* Theme toggle */}
+            <button
+              onClick={toggle}
+              className="btn btn-ghost p-2 rounded-lg"
+              title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            >
+              {theme === 'dark'
+                ? <Sun size={16} className="text-text-muted hover:text-accent-yellow transition-colors" />
+                : <Moon size={16} className="text-text-muted hover:text-accent-blue transition-colors" />
+              }
+            </button>
 
             {/* Mobile menu button */}
             <button
