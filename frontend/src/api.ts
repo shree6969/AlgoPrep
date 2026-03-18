@@ -1,5 +1,5 @@
 import axios from 'axios'
-import type { Problem, ProblemListItem, ExecutionResult, PatternInfo, CompanyInfo } from './types'
+import type { Problem, ProblemListItem, ExecutionResult, PatternInfo, CompanyInfo, SecurityChapter, SecurityChapterListItem } from './types'
 
 const api = axios.create({ baseURL: '/api' })
 
@@ -29,3 +29,9 @@ export const getPatterns = () =>
 
 export const getCompanies = () =>
   api.get<CompanyInfo[]>('/companies').then((r) => r.data)
+
+export const getSecurityChapters = () =>
+  api.get<SecurityChapterListItem[]>('/security/chapters').then((r) => r.data)
+
+export const getSecurityChapter = (id: string) =>
+  api.get<SecurityChapter>(`/security/chapters/${id}`).then((r) => r.data)

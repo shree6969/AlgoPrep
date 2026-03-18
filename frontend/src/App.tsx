@@ -4,6 +4,8 @@ import HomePage from './pages/HomePage'
 import ProblemsPage from './pages/ProblemsPage'
 import ProblemPage from './pages/ProblemPage'
 import PatternsPage from './pages/PatternsPage'
+import SecurityPage from './pages/SecurityPage'
+import SecurityChapterPage from './pages/SecurityChapterPage'
 
 export default function App() {
   return (
@@ -14,6 +16,8 @@ export default function App() {
           <Route path="problems" element={<ProblemsPage />} />
           <Route path="problems/:id" element={<ProblemPage />} />
           <Route path="patterns" element={<PatternsPage />} />
+          <Route path="security" element={<SecurityPage />} />
+          <Route path="security/:chapterId" element={<SecurityChapterPage />} />
         </Route>
       </Routes>
     </div>

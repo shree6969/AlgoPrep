@@ -1,5 +1,5 @@
 import { Outlet, NavLink } from 'react-router-dom'
-import { Code2, BookOpen, Network, Menu, X, Zap } from 'lucide-react'
+import { Code2, BookOpen, Network, Menu, X, Zap, Shield } from 'lucide-react'
 import { useState } from 'react'
 import clsx from 'clsx'
 
@@ -9,6 +9,7 @@ export default function Layout() {
   const navLinks = [
     { to: '/problems', label: 'Problems', icon: <BookOpen size={16} /> },
     { to: '/patterns', label: 'Patterns', icon: <Network size={16} /> },
+    { to: '/security', label: 'Security', icon: <Shield size={16} /> },
   ]
 
   return (
