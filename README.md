@@ -1,4 +1,4 @@
-# AlgoPrep — L7/L8 Algorithm Interview Platform
+# AlgoPrep — Coding Interview Prep Platform
 
 An interactive algorithm study platform targeting senior/staff engineer interviews at top tech companies. Browse 57 curated problems organized by pattern, read real Python solutions, and step through animated visualizations that show exactly how each algorithm executes.
 
