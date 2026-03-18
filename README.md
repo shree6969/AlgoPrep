@@ -2,6 +2,8 @@
 
 An interactive algorithm study platform targeting senior/staff engineer interviews at top tech companies. Browse 57 curated problems organized by pattern, read real Python solutions, and step through animated visualizations that show exactly how each algorithm executes.
 
+Also includes a **Security Engineering** module — a multi-chapter technical reference covering enterprise agentic platform security on AWS, with architecture deep-dives, production code patterns, and hands-on coding challenges.
+
 ---
 
 ## Features
@@ -13,6 +15,7 @@ An interactive algorithm study platform targeting senior/staff engineer intervie
 - **CodeMirror editor** — Python syntax highlighting with toggleable solution reveal
 - **Custom inputs** — supply your own test case and re-run the visualization
 - **Pattern reference page** — descriptions and problem counts for every pattern
+- **Security Engineering module** — 6 chapters on enterprise agentic platform security (workload identities, MCP Gateway, OAuth/OIDC, multi-layer authZ, audit logging) with 7 coding challenges
 
 ---
 
@@ -131,7 +134,7 @@ This starts both processes and prints their URLs. Press `Ctrl+C` to stop both.
 ## Project Structure
 
 ```
-algo_platform/
+AlgoPrep/
 ├── start.sh                        # Convenience script to start both servers
 ├── backend/
 │   ├── pyproject.toml              # Poetry dependencies
@@ -139,34 +142,39 @@ algo_platform/
 │       ├── main.py                 # FastAPI app, CORS config
 │       ├── models.py               # Pydantic models (Problem, VizStep, etc.)
 │       ├── problems_data.py        # All 57 problem definitions + solutions
+│       ├── security_data.py        # Security Engineering module — all 6 chapters
 │       ├── executor.py             # Visualization step generators
 │       └── routers/
-│           └── problems.py         # REST API routes
+│           ├── problems.py         # REST API routes for problems/patterns
+│           └── security.py         # REST API routes for security module
 └── frontend/
     ├── vite.config.ts              # Vite config with /api proxy
     └── src/
         ├── App.tsx                 # Router setup
-        ├── types.ts                # TypeScript interfaces
+        ├── types.ts                # TypeScript interfaces (incl. SecurityChapter types)
         ├── api.ts                  # Axios API client
         ├── pages/
         │   ├── HomePage.tsx        # Landing page with pattern grid
         │   ├── ProblemsPage.tsx    # Filterable problem list
         │   ├── ProblemPage.tsx     # 3-panel problem solver
-        │   └── PatternsPage.tsx    # Pattern reference
+        │   ├── PatternsPage.tsx    # Pattern reference
+        │   ├── SecurityPage.tsx    # Security module chapter listing
+        │   └── SecurityChapterPage.tsx  # Chapter reader with TOC sidebar
         └── components/
             ├── Layout.tsx
-            ├── Sidebar.tsx         # Pattern/difficulty/company filters
-            ├── CodeEditor.tsx      # CodeMirror Python editor
+            ├── Sidebar.tsx              # Pattern/difficulty/company filters
+            ├── CodeEditor.tsx           # CodeMirror Python editor
+            ├── SecurityContentRenderer.tsx  # Block-based content renderer
             ├── DifficultyBadge.tsx
             ├── PatternBadge.tsx
             ├── ProblemCard.tsx
             └── Visualizer/
-                ├── index.tsx           # Dispatcher (picks sub-visualizer by viz_type)
-                ├── StepControls.tsx    # Play/Pause/Prev/Next + speed slider
-                ├── ArrayVisualizer.tsx # SVG boxes/bars with pointer labels
-                ├── GridVisualizer.tsx  # 2D DP tables + N-Queens board
-                ├── TreeVisualizer.tsx  # SVG binary tree layout
-                └── GraphVisualizer.tsx # Graph state display
+                ├── index.tsx            # Dispatcher (picks sub-visualizer by viz_type)
+                ├── StepControls.tsx     # Play/Pause/Prev/Next + speed slider
+                ├── ArrayVisualizer.tsx  # SVG boxes/bars with pointer labels
+                ├── GridVisualizer.tsx   # 2D DP tables + N-Queens board
+                ├── TreeVisualizer.tsx   # SVG binary tree layout
+                └── GraphVisualizer.tsx  # Graph state display
 ```
 
 ---
@@ -212,6 +220,60 @@ algo_platform/
 
 ---
 
+## Security Engineering Module
+
+A standalone multi-chapter reference for engineers working on enterprise AI agent platforms on public clouds. Available at `/security` in the UI.
+
+### Chapters
+
+| # | Title | Key Topics |
+|---|---|---|
+| 1 | Introduction to Enterprise Agentic Security | Threat landscape, confused deputy, token exfiltration, zero-trust principles |
+| 2 | Workload Identities for AI Agents | AWS AgentCore Identity directory, agent vs. user identities, credential rotation |
+| 3 | AWS AgentCore MCP Gateway | Enterprise reference architecture, PAT-based auth, VPC isolation, security groups |
+| 4 | OAuth 2.0 & OIDC for Agentic Systems | Client credentials grant, OIDC claim validation, ID-JAG token exchange, Okta XAA |
+| 5 | Multi-Layer Authorization Controls | User + Agent + Service identity authZ, RBAC/ABAC, deny-override policy engine |
+| 6 | Observability & Audit Logging | Structured audit events, CloudWatch, AWS X-Ray distributed tracing, anomaly detection |
+
+### Reference Architecture
+
+Each chapter references the following enterprise pattern (Chapter 3 covers it in full detail):
+
+```
+Okta/LDAP Login → Pharos App → Personal Access Token (PAT)
+                                        ↓
+User Identity + Agent Identity → AgentCore MCP Gateway VPC
+                                        ↓
+                               Scout MCP Server (Scout VPC)
+                                        ↓
+                          Scout Data Access Service Account
+                                        ↓
+                    Solas-Logs DB  ←  (User + Agent + Service Identity authZ)
+```
+
+### Coding Challenges
+
+Each chapter includes 1–2 coding challenges (Easy → Hard) with starter code, hints, and full solutions:
+
+| Challenge | Chapter | Difficulty |
+|---|---|---|
+| Identify Agentic Security Vulnerabilities | 1 | Easy |
+| Agent Identity Registry | 2 | Medium |
+| MCP Gateway Request Validator | 3 | Medium |
+| JWT Validator with Full Claim Enforcement | 4 | Easy |
+| Policy Inheritance and Override | 5 | Hard |
+| Behavioral Anomaly Detector | 6 | Medium |
+
+### Security API Endpoints
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/api/security/chapters` | List all chapters (lightweight, no content) |
+| `GET` | `/api/security/chapters/{id}` | Full chapter with sections, code, and challenges |
+| `GET` | `/api/security/chapters/{id}/challenges` | Challenges only |
+
+---
+
 ## Adding a New Problem
 
 1. **Define the problem** in `backend/app/problems_data.py` — add a `Problem(...)` entry to the `PROBLEMS` list with id, title, pattern, difficulty, companies, description, examples, constraints, solution code, and `viz_type`.
@@ -219,3 +281,9 @@ algo_platform/
 2. **(Optional) Add visualization** in `backend/app/executor.py` — write a step-generator function and add a branch in `execute_problem()` matching your problem's id.
 
 3. The frontend picks up new problems automatically via the API — no frontend changes needed.
+
+## Adding a New Security Chapter
+
+1. Add a chapter dict to `SECURITY_CHAPTERS` in `backend/app/security_data.py` following the existing schema (id, chapter_num, title, subtitle, description, tags, estimated_minutes, sections, challenges, references).
+2. Sections contain `blocks` — typed content blocks: `paragraph`, `heading`, `code`, `bullets`, `callout`, `diagram`.
+3. The frontend renders new chapters automatically — no frontend changes needed.
